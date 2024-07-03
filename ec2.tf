@@ -13,13 +13,22 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+ 
+resource "aws_instance" "web_1" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = var.ec2_instance_type
 
-# resource "aws_instance" "web_1" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = "t3.micro"
+  tags = {
+    Name = "var.ec2_instance_name"
+  }
+}
 
-#   tags = {
-#     Name = "HelloWorld_1"
-#   }
-# }
+variable "ec2_instance_name" {
+  type = string
+  # default = "demo_instance"
+}
 
+variable "ec2_instance_type" {
+  type = string
+  # default = "t2.micro"
+}
